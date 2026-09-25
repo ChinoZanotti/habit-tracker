@@ -1,0 +1,87 @@
+.dialog {
+  width: calc(100% - 32px);
+  max-width: 440px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: var(--surface-raised);
+  color: var(--ink);
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+}
+
+.title {
+  overflow-wrap: anywhere;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+
+/* Opción de dos líneas */
+.option {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-height: 64px;
+  padding: var(--space-3) var(--space-5);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  text-align: left;
+}
+
+.option:hover { background: var(--surface); }
+
+.optionDanger,
+.optionDanger:hover {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--on-ink);
+}
+
+.optionDanger:focus-visible { outline-color: var(--ink); }
+
+.primary,
+.cancel {
+  height: 48px;
+  border-radius: var(--radius-full);
+}
+
+.primary {
+  border: 0;
+  background: var(--ink);
+  color: var(--on-ink);
+}
+
+.cancel {
+  border: 0;
+  background: var(--surface);
+}
+
+/* En celular se abre como hoja desde abajo */
+@media (max-width: 599px) {
+  .dialog {
+    width: 100%;
+    max-width: none;
+    margin: auto 0 0;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  .body {
+    padding-bottom: max(var(--space-6), env(safe-area-inset-bottom));
+  }
+}

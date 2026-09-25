@@ -1,0 +1,221 @@
+/* ---------- Pantalla ---------- */
+.screen {
+  max-width: 560px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: max(24px, env(safe-area-inset-top)) var(--space-6) 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 380px) {
+  .screen { padding-left: 20px; padding-right: 20px; }
+}
+
+.hero {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+/* El número gigante se achica en pantallas muy angostas */
+.heroNum {
+  font-size: clamp(104px, 36vw, 152px);
+  line-height: 0.88;
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  padding-top: var(--space-3);
+}
+
+.heroCaption { margin-top: var(--space-2); }
+
+/* ---------- Lista ---------- */
+.list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-5);
+  padding-bottom: var(--space-2);
+}
+
+.empty {
+  padding: var(--space-5);
+  border: 1px dashed var(--ink-muted);
+  border-radius: var(--radius-md);
+  text-align: center;
+}
+
+.addBar {
+  position: sticky;
+  bottom: 0;
+  padding: var(--space-3) 0 max(24px, env(safe-area-inset-bottom));
+  background: var(--surface);
+}
+
+/* ---------- Tarjeta ---------- */
+.card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 1px var(--row-outline);
+}
+
+.cardMain {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.strip {
+  display: flex;
+  width: 100%;
+  height: 8px;
+  margin-top: 6px;
+}
+
+.seg {
+  flex: 1 1 0;
+  height: 8px;
+  margin: 0 1px;
+  border-radius: 4px;
+}
+
+.segOn { background: var(--ink); }
+.segOpen { background: var(--divider); }
+.segToday { background: var(--marker); }
+.segJoinPrev { margin-left: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.segJoinNext { margin-right: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; }
+
+.cardStreak {
+  width: 48px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.unit { font-size: 12px; line-height: 16px; }
+
+/* ---------- Detalle ---------- */
+.detail { padding-bottom: max(24px, env(safe-area-inset-bottom)); }
+
+.topBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 48px;
+}
+
+.detailTitle { margin-top: var(--space-4); overflow-wrap: anywhere; }
+
+.detailStreak {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.detailStreakText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-bottom: 20px;
+}
+
+.detailStepper { margin-top: var(--space-5); }
+
+.calHead,
+.week {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.calHead {
+  margin-top: var(--space-4);
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+}
+
+.calendar { margin-top: var(--space-1); }
+
+.week { height: 48px; }
+
+.calDay {
+  position: relative;
+  height: 48px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+.calDayOn { color: var(--on-ink); }
+.calDayFuture { color: var(--ink-ghost); }
+
+.calBar {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 3px;
+  right: 3px;
+  background: var(--ink);
+  border-radius: 18px;
+}
+
+.joinPrev { left: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.joinNext { right: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; }
+
+.calNum { position: relative; }
+
+.calToday {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 16px;
+  height: 3px;
+  margin-left: -8px;
+  border-radius: var(--radius-full);
+  background: var(--marker);
+}
+
+.detailFooter {
+  margin-top: auto;
+  padding-top: var(--space-5);
+}
+
+.outlineBtn {
+  width: 100%;
+  height: 48px;
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-full);
+  background: transparent;
+}
+
+.closedNote {
+  margin-top: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+}

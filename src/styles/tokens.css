@@ -1,0 +1,44 @@
+/* Tokens del sistema de diseño "Habit Tracker" (tokens.json). Tema único: claro. */
+:root {
+  /* Color */
+  --surface: #e8e8e8;
+  --surface-raised: #ffffff;
+  --surface-soft: #f9f9f9;
+  --row-outline: #f1f1f1;
+  --divider: #c9c9c9;
+  --ink: #000000;
+  --ink-muted: #7f7f7f; /* 3.3:1 sobre surface: solo meta no esencial */
+  --ink-ghost: #b3b3b3; /* decorativo, nunca texto legible */
+  --on-ink: #ffffff;
+  --on-ink-muted: #8a8a8a;
+  --map-land: #7b7b7b;
+  --marker: #de4d53;
+  --sun: #f3d431;
+  --moon: #ecc951;
+
+  /* Tipografía */
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  /* Espaciado */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 28px;
+  --space-7: 40px;
+
+  /* Radios */
+  --radius-md: 16px;
+  --radius-lg: 36px;
+  --radius-full: 9999px;
+}
+
+/* Estilos de texto */
+.numeral-xl { font-size: 152px; line-height: 134px; font-weight: 400; letter-spacing: -0.02em; }
+.display    { font-size: 64px;  line-height: 66px;  font-weight: 400; letter-spacing: -0.01em; }
+.numeral-lg { font-size: 44px;  line-height: 48px;  font-weight: 400; }
+.title      { font-size: 34px;  line-height: 40px;  font-weight: 400; }
+.label      { font-size: 16px;  line-height: 20px;  font-weight: 500; }
+.caption    { font-size: 14px;  line-height: 18px;  font-weight: 400; }
+.control    { font-size: 14px;  line-height: 18px;  font-weight: 500; }

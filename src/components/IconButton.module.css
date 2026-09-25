@@ -1,0 +1,14 @@
+.btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-full);
+}
+
+.raised { background: var(--surface-raised); color: var(--ink); }
+.soft   { background: var(--surface-soft); color: var(--ink); }
+.ink    { background: var(--ink); color: var(--on-ink); }
+.ink:focus-visible { outline-color: var(--ink); }

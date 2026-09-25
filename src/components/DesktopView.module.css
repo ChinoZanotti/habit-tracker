@@ -1,0 +1,49 @@
+.page {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: var(--space-7);
+}
+
+.monthHero {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.monthText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-top: var(--space-3);
+}
+
+.today {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-1);
+  text-align: right;
+}
+
+.add {
+  padding-left: var(--space-5);
+  --add-label-width: 212px;
+  --add-input-max: 420px;
+}
+
+/* Escritorio chico / tablet horizontal */
+@media (max-width: 1199px) {
+  .page { padding: 32px; gap: 24px; }
+  .monthNum { font-size: 112px; line-height: 100px; }
+  .add { --add-label-width: auto; padding-left: 0; }
+}

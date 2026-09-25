@@ -1,0 +1,179 @@
+/* Si la ventana es angosta, la grilla se desplaza horizontalmente en vez de apretar los días. */
+.scroller {
+  overflow-x: auto;
+  margin: 0 -8px;
+  padding: 0 8px 8px;
+}
+
+.grid {
+  --name-col: minmax(200px, 260px);
+  --total-col: 120px;
+  --cols: var(--name-col) repeat(var(--days), minmax(26px, 1fr)) var(--total-col);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: calc(200px + var(--days) * 26px + 120px);
+}
+
+.headRow,
+.row {
+  display: grid;
+  grid-template-columns: var(--cols);
+  align-items: center;
+}
+
+.headRow {
+  align-items: end;
+  height: 48px;
+}
+
+.headName { padding-left: var(--space-5); letter-spacing: 0.04em; }
+.headTotal { padding-right: var(--space-5); text-align: right; letter-spacing: 0.04em; }
+
+.headDay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.weekday { font-size: 12px; line-height: 16px; }
+
+.dayNum {
+  width: 28px;
+  height: 28px;
+  font-size: 14px;
+  line-height: 28px;
+  text-align: center;
+}
+
+.dayNumToday {
+  border-radius: var(--radius-full);
+  background: var(--marker);
+  font-weight: 500;
+}
+
+.row {
+  height: 64px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 0 1px var(--row-outline);
+  overflow: hidden;
+}
+
+.name {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-3) 0 var(--space-5);
+  min-width: 0;
+}
+
+.nameText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.ellipsis,
+.nameText > :global(.caption) {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* La × aparece al pasar el mouse o con teclado; en pantallas táctiles queda visible. */
+.remove { opacity: 0; }
+.row:hover .remove,
+.remove:focus-visible { opacity: 1; }
+@media (hover: none) { .remove { opacity: 1; } }
+
+.cell {
+  position: relative;
+  height: 64px;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+}
+
+/* Línea roja de "hoy" que cruza todas las filas */
+.today::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--marker);
+}
+
+.bar {
+  position: relative;
+  flex: 1;
+  height: 32px;
+  margin: 0 4px;
+  border-radius: 16px;
+  background: var(--ink);
+}
+
+.joinPrev { margin-left: 0; border-top-left-radius: 0; border-bottom-left-radius: 0; }
+.joinNext { margin-right: 0; border-top-right-radius: 0; border-bottom-right-radius: 0; }
+
+.dot {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  margin: 0 auto;
+  border: 1.5px solid var(--ink-muted);
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  transition: background 120ms ease;
+}
+
+.cell:not(:disabled):hover .dot { background: var(--ink-ghost); }
+
+.futureDot {
+  width: 4px;
+  height: 4px;
+  margin: 0 auto;
+  border-radius: var(--radius-full);
+  background: var(--ink-ghost);
+}
+
+.total {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-right: var(--space-5);
+}
+
+.unit { font-size: 12px; line-height: 16px; white-space: nowrap; }
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  border: 1px dashed var(--ink-muted);
+  border-radius: var(--radius-md);
+}
+
+/* Escritorio chico / tablet horizontal: columnas más compactas para que entren los 31 días */
+@media (max-width: 1199px) {
+  .grid {
+    --name-col: minmax(140px, 200px);
+    --total-col: 100px;
+    --cols: var(--name-col) repeat(var(--days), minmax(22px, 1fr)) var(--total-col);
+    min-width: calc(140px + var(--days) * 22px + 100px);
+  }
+  .name { padding-left: var(--space-4); }
+  .headName { padding-left: var(--space-4); }
+  .headTotal, .total { padding-right: var(--space-4); }
+  .dayNum { width: 24px; height: 24px; line-height: 24px; font-size: 13px; }
+  .unit { font-size: 11px; }
+}
