@@ -5,7 +5,7 @@ import AddHabitForm from './AddHabitForm.jsx';
 import styles from './Mobile.module.css';
 
 /** Pantalla principal en celular: hoy + lista de hábitos con su barra del mes. */
-export default function MobileHome({ habits, todayHabits, today, view, onViewChange, onToggleDay, onAddHabit, onOpenHabit }) {
+export default function MobileHome({ habits, todayHabits, today, view, onViewChange, onToggleDay, onAddHabit, onOpenHabit, onSignOut }) {
   const todayKey = keyOfDate(today);
   const doneToday = todayHabits.filter((h) => h.done.has(todayKey)).length;
   const activeToday = new Set(todayHabits.map((h) => h.id));
@@ -28,7 +28,7 @@ export default function MobileHome({ habits, todayHabits, today, view, onViewCha
         </h1>
       </header>
       <p className={`caption ${styles.heroCaption}`}>
-        {doneToday} de {todayHabits.length} hábitos cumplidos hoy
+        {doneToday} de {todayHabits.length} {todayHabits.length === 1 ? 'hábito cumplido' : 'hábitos cumplidos'} hoy
       </p>
 
       <section aria-label="Hábitos" className={styles.list}>
@@ -46,6 +46,9 @@ export default function MobileHome({ habits, todayHabits, today, view, onViewCha
             onToggleToday={() => onToggleDay(habit.id, todayKey)}
           />
         ))}
+        <button type="button" className={`control ${styles.signOut}`} onClick={onSignOut}>
+          Cerrar sesión
+        </button>
       </section>
 
       <div className={styles.addBar}>

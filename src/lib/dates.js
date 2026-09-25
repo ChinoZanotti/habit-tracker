@@ -30,7 +30,10 @@ export const monthKey = (y, m) => `${y}-${pad(m + 1)}`;
 export const isSameMonth = (view, today) =>
   view.year === today.getFullYear() && view.month === today.getMonth();
 
-export const range =(a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
+/** plural(1, 'día', 'días') → '1 día' */
+export const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+
+export const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 
 export const todayLabel = (today) =>
   `${WEEKDAYS_SHORT[today.getDay()]} ${today.getDate()} ${MONTHS_SHORT[today.getMonth()]}`;

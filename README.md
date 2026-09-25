@@ -1,14 +1,40 @@
-# Habit Tracker — frontend
+# Habit Tracker
 
 React + Vite (JavaScript), estilos con CSS Modules y las variables del sistema de diseño "Habit Tracker".
+Los datos se guardan en **Supabase** (Postgres en la nube) y se sincronizan entre todos tus dispositivos.
 
-## Arrancar
+## 1. Configurar Supabase (una sola vez)
+
+1. Creá una cuenta en https://supabase.com y un proyecto nuevo (elegí la región más cercana, p. ej. São Paulo).
+2. **Base de datos:** en el proyecto andá a *SQL Editor → New query*, pegá todo el contenido de `supabase/schema.sql` y tocá *Run*. Crea las tablas, la seguridad por usuario (RLS) y los permisos.
+3. **Tu usuario:** en *Authentication → Users → Add user → Create new user*, cargá tu email y una contraseña, con la opción de confirmar automáticamente activada.
+4. **Cerrar el registro:** en la configuración de *Authentication* (proveedores / sign in), desactivá la opción de permitir que se registren usuarios nuevos. Así nadie más puede crearse una cuenta en tu app.
+5. **Claves:** en *Project Settings → API Keys* copiá la **publishable key** (`sb_publishable_…`; si tu proyecto muestra la "anon key" antigua, sirve igual). La **URL del proyecto** está en *Project Settings → Data API* (`https://xxxx.supabase.co`).
+   No uses nunca la *secret / service_role key* en el frontend.
+
+## 2. Correr la app
 
 ```bash
+cp .env.example .env.local   # y completá URL y publishable key
 npm install
-npm run dev      # http://localhost:5173
-npm run build    # genera dist/
+npm run dev                  # http://localhost:5173
 ```
+
+`.env.local` no se sube a git (está en `.gitignore`). La publishable key es pública por diseño: lo que protege tus datos son las políticas RLS del paso 2.
+
+## 3. Publicarla para usarla desde el celular (opcional)
+
+Cualquier hosting de sitios estáticos sirve (Netlify, Vercel, Cloudflare Pages):
+
+- Comando de build: `npm run build` · carpeta publicada: `dist`
+- Variables de entorno: las mismas dos de `.env.local`
+- En el celular, abrí la URL y usá "Agregar a pantalla de inicio".
+
+## Cómo funciona
+
+- **Guardado:** cada toque se ve al instante y se guarda en segundo plano. Si falla (sin conexión), se deshace y aparece un aviso con "Reintentar".
+- **Sincronización:** al volver a la app (cambiar de pestaña o reabrirla) se recargan los datos, así lo que marcaste en el celular aparece en la compu.
+- **"Hoy"** se recalcula al volver a la app, por si quedó abierta de un día para otro.
 
 ## Responsive
 
@@ -18,73 +44,34 @@ npm run build    # genera dist/
 | 900–1199 px | La misma grilla, con columnas más compactas |
 | < 900 px | Vista móvil: lista "Hoy" con check del día + detalle del hábito con calendario |
 
-Si la grilla no entra (ventanas muy angostas por encima de 900 px), se desplaza horizontalmente.
-
 ## Estructura
 
 ```
+supabase/schema.sql       tablas, RLS y permisos (pegar en el SQL Editor)
 src/
-  App.jsx                 elige la vista según el ancho (useMediaQuery)
-  hooks/useHabits.js      estado de los hábitos — ÚNICO punto a cambiar al conectar la API
+  App.jsx                 configuración → login → tracker
+  lib/supabase.js         cliente de Supabase (lee .env.local)
+  hooks/useAuth.js        sesión (email + contraseña)
+  hooks/useHabits.js      carga y guarda hábitos en Supabase
   hooks/useMediaQuery.js
   lib/dates.js            fechas locales "YYYY-MM-DD", nombres de meses/días
   lib/streaks.js          racha actual, mejor racha, forma de la barra
-  data/sampleHabits.js    datos de ejemplo (relativos a hoy, se pierden al recargar)
   components/
+    LoginScreen, StatusScreen (cargando / error / falta configurar)
     DesktopView, HabitGrid          escritorio / tablet
     MobileHome, HabitCard, HabitDetail   celular
-    DeleteHabitDialog               confirmación de borrado (modal / hoja en celular)
+    DeleteHabitDialog               confirmación de borrado
     MonthSelector, AddHabitForm, IconButton, Icons
   styles/tokens.css       tokens del sistema de diseño
 ```
 
-## Reglas de la racha
+## Modelo de datos
 
-- Cuenta los días seguidos marcados hasta hoy. Si hoy todavía no se marcó, cuenta hasta ayer (el día no terminó).
-- Un día sin marcar la vuelve a 0.
-- Cruza meses: el 1 de octubre continúa la racha de septiembre.
-- En un mes pasado, la columna RACHA muestra la racha al último día de ese mes.
-- Los días futuros no se pueden marcar.
+- `habits`: `id`, `user_id`, `name`, `ended_from` (primer día del mes desde el que se dejó de seguir, o vacío), `created_at`
+- `habit_days`: `habit_id`, `user_id`, `day` — una fila por día cumplido
 
-## Botón "Hoy"
+## Reglas
 
-Vuelve al mes actual. En escritorio está siempre junto al selector de año (apagado si ya estás en el mes de hoy); en celular aparece junto al nombre del mes solo cuando estás viendo otro mes.
-
-## Eliminar un hábito
-
-Siempre pide confirmación. Si el hábito tiene días registrados antes del mes que estás viendo, pregunta:
-
-- **Solo desde este mes**: el hábito deja de aparecer desde ese mes en adelante (se borran sus días de ese mes y los siguientes) y se conserva el historial anterior. Se guarda como `endedFrom: "YYYY-MM"`.
-- **También los meses anteriores**: se borra el hábito con todo su historial.
-
-Si no tiene historial previo, es una confirmación simple.
-
-## Próximo paso: backend
-
-Modelo sugerido para Postgres:
-
-```sql
-CREATE TABLE habits (
-  id         SERIAL PRIMARY KEY,
-  name       TEXT NOT NULL,
-  ended_from DATE,          -- primer día del mes desde el que se dejó de seguir (NULL = activo)
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
-CREATE TABLE habit_days (
-  habit_id INTEGER NOT NULL REFERENCES habits(id) ON DELETE CASCADE,
-  day      DATE    NOT NULL,
-  PRIMARY KEY (habit_id, day)
-);
-```
-
-Endpoints que espera `useHabits.js`:
-
-```
-GET    /api/habits                    -> [{ id, name, endedFrom, done: ["2026-09-25", ...] }]
-POST   /api/habits          { name }
-DELETE /api/habits/:id                  (borra todo el historial)
-POST   /api/habits/:id/end   { from: "2026-09" }   (solo desde ese mes)
-PUT    /api/habits/:id/days/:date     (marcar)
-DELETE /api/habits/:id/days/:date     (desmarcar)
-```
+- **Racha:** días seguidos marcados hasta hoy; si hoy todavía no se marcó, cuenta hasta ayer. Un día sin marcar la vuelve a 0. Cruza meses. En un mes pasado, RACHA es la racha al último día de ese mes. Los días futuros no se pueden marcar.
+- **Botón "Hoy":** vuelve al mes actual (escritorio: siempre visible, apagado en el mes de hoy; celular: aparece solo en otros meses).
+- **Eliminar:** siempre pide confirmación. Si hay historial anterior al mes visible, pregunta si eliminar **solo desde ese mes** (se guarda `ended_from` y se conserva lo anterior) o **también los meses anteriores** (se borra todo).

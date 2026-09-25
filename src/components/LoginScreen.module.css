@@ -1,0 +1,59 @@
+.screen {
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+}
+
+.card {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.title {
+  font-size: clamp(56px, 18vw, 88px);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--space-5);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.input {
+  height: 48px;
+  padding: 0 var(--space-5);
+  border: 1px solid var(--ink-muted);
+  border-radius: var(--radius-full);
+  background: var(--surface-raised);
+  font-weight: 400;
+}
+
+.error {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--surface-raised);
+  border-left: 0;
+  box-shadow: 0 0 0 1px var(--marker);
+}
+
+.submit {
+  height: 48px;
+  margin-top: var(--space-2);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--ink);
+  color: var(--on-ink);
+}
+
+.submit:disabled {
+  background: var(--divider);
+  color: var(--ink);
+}

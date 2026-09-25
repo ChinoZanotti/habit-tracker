@@ -1,4 +1,4 @@
-import { MONTHS, WEEK_HEAD_MONDAY, dateKey, monthKey, range, todayLabel } from '../lib/dates.js';
+import { MONTHS, WEEK_HEAD_MONDAY, dateKey, monthKey, plural, range, todayLabel } from '../lib/dates.js';
 import { isActiveIn } from '../hooks/useHabits.js';
 import { dayShape, monthStats } from '../lib/streaks.js';
 import IconButton from './IconButton.jsx';
@@ -37,7 +37,7 @@ export default function HabitDetail({ habit, today, view, onViewChange, onToggle
         <div className={styles.detailStreakText}>
           <span className="label">{stats.streak === 1 ? 'día seguido' : 'días seguidos'}</span>
           <span className="caption">
-            Mejor racha {stats.best} · {stats.done} días este mes
+            Mejor racha {stats.best} · {plural(stats.done, 'día', 'días')} este mes
           </span>
         </div>
       </div>

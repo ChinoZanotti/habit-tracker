@@ -50,6 +50,18 @@
   text-align: center;
 }
 
+.signOut {
+  align-self: center;
+  height: 44px;
+  margin-top: var(--space-4);
+  padding: 0 var(--space-5);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: transparent;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 .addBar {
   position: sticky;
   bottom: 0;
