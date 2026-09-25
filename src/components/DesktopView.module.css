@@ -35,6 +35,15 @@
   text-align: right;
 }
 
+.signOut {
+  height: 40px;
+  margin-bottom: var(--space-3);
+  padding: 0 var(--space-4);
+  border: 0;
+  border-radius: var(--radius-full);
+  background: var(--surface-raised);
+}
+
 .add {
   padding-left: var(--space-5);
   --add-label-width: 212px;

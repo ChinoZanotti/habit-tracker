@@ -1,4 +1,4 @@
-import { keyOfDate, range } from '../lib/dates.js';
+import { keyOfDate, plural, range } from '../lib/dates.js';
 import { dayShape, monthStats } from '../lib/streaks.js';
 import IconButton from './IconButton.jsx';
 import { Check, Ring } from './Icons.jsx';
@@ -16,7 +16,7 @@ export default function HabitCard({ habit, today, view, canCheckToday = true, on
       <button type="button" className={styles.cardMain} onClick={onOpen} aria-label={`Ver ${habit.name}`}>
         <span className={`label ${styles.ellipsis}`}>{habit.name}</span>
         <span className="caption muted">
-          {stats.done} días · mejor {stats.best}
+          {plural(stats.done, 'día', 'días')} · mejor {stats.best}
         </span>
         <span className={styles.strip} aria-hidden="true">
           {range(1, stats.daysInMonth).map((d) => {

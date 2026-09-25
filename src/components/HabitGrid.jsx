@@ -1,4 +1,4 @@
-import { MONTHS, WEEKDAY_INITIALS, dateKey, range } from '../lib/dates.js';
+import { MONTHS, WEEKDAY_INITIALS, dateKey, plural, range } from '../lib/dates.js';
 import { dayShape, monthStats } from '../lib/streaks.js';
 import IconButton from './IconButton.jsx';
 import { Close } from './Icons.jsx';
@@ -38,7 +38,7 @@ export default function HabitGrid({ habits, today, year, month, onToggleDay, onR
                 <div className={styles.nameText}>
                   <span className={`label ${styles.ellipsis}`} title={habit.name}>{habit.name}</span>
                   <span className="caption muted">
-                    {stats.done} días · mejor racha {stats.best}
+                    {plural(stats.done, 'día', 'días')} · mejor racha {stats.best}
                   </span>
                 </div>
                 <IconButton

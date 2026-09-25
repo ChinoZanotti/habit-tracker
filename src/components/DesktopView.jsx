@@ -4,7 +4,7 @@ import HabitGrid from './HabitGrid.jsx';
 import AddHabitForm from './AddHabitForm.jsx';
 import styles from './DesktopView.module.css';
 
-export default function DesktopView({ habits, todayHabits, today, view, onViewChange, onToggleDay, onAddHabit, onRequestRemove }) {
+export default function DesktopView({ habits, todayHabits, today, view, onViewChange, onToggleDay, onAddHabit, onRequestRemove, onSignOut }) {
   const { year, month } = view;
   const todayKey = keyOfDate(today);
   const doneToday = todayHabits.filter((h) => h.done.has(todayKey)).length;
@@ -24,6 +24,9 @@ export default function DesktopView({ habits, todayHabits, today, view, onViewCh
           </div>
         </div>
         <div className={styles.today}>
+          <button type="button" className={`control ${styles.signOut}`} onClick={onSignOut}>
+            Cerrar sesión
+          </button>
           <p className="caption">Hoy, {todayLabel(today)}</p>
           <p className="numeral-lg">
             {doneToday}
